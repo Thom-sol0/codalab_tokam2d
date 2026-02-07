@@ -18,13 +18,15 @@ def train_model(training_dir):
         print("Using GPU")
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    model = fasterrcnn_resnet50_fpn()
+    model = fasterrcnn_resnet50_fpn(
+        box_score_thresh=0.1, box_nms_thresh=0.05,
+    )
     model.to(device)
     model.train()
 
     optimizer = torch.optim.AdamW(model.parameters())
 
-    max_epochs = 1
+    max_epochs = 10
 
     for i in range(max_epochs):
         print(f"Epoch {i+1}/{max_epochs}")
